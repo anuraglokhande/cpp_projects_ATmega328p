@@ -1,12 +1,10 @@
 /*
  * Code1.cpp
  *
- * Created: 03/01/2019 7:46:31 PM
+ * Created: 04/01/2019 7:46:31 PM
  * Author : Anurag
- * code function: this code is to check only "how to work with class in embedded system and
- * is it work or not"
- * Aim of project: Blinking of On board LED of Arduino nano
- * this is edited for seeing changes and trial of git
+ * code function: code is written for pinmode function and digitalWrite function for port B only like in Arduino
+ * verified only for LED as OUTPUT
  */ 
 
 #include <avr/io.h>
@@ -16,8 +14,20 @@
 						//and in program, resolution of 1sec will be wrong 
 #include <util/delay.h>
 
-
+/* global macros */
 #define DELAY_MS 1000
+#define OUTPUT 1
+#define INPUT 0
+#define HIGH 1
+#define LOW 0
+
+
+/* global functions */
+
+void pinMode(const char,const char);
+//pinMode(LED_PIN_RED, OUTPUT);
+void digitalWrite(const char,const char);
+//digitalWrite(BUZZER_PIN1, HIGH);
 
 class Box {
 	public:
@@ -43,16 +53,33 @@ class Box {
 int main(void)
 {
     /* Replace with your application code */
-	Box Box1;        // Declare Box1 of type Box
+	//Box Box1;        // Declare Box1 of type Box
+	pinMode(5,OUTPUT);
+	digitalWrite(5,HIGH);
 	
-
-	
-    while (1) 
-    {
-			Box1.setFunction_port_b();
-			_delay_ms(DELAY_MS);
-			Box1.clearFunction_port_b();
-			_delay_ms(DELAY_MS);
-    }
 }
 
+void pinMode(const char pin,const char mode)
+{
+	if (mode == OUTPUT)
+	{
+		DDRB = DDRB | (1<<pin);
+	}
+	else
+	{
+		DDRB = DDRB & (0<<pin);
+	}	
+}
+
+void digitalWrite(const char pin,const char level)
+{
+		if (level == HIGH)
+		{
+			PORTB = PORTB | (1<<pin);
+		}
+		else
+		{
+			PORTB = PORTB & (0<<pin);
+		}
+	
+}
